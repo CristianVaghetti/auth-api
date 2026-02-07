@@ -23,5 +23,6 @@ Homestead.json
 Homestead.yaml
 Thumbs.db
 /.docker/nginx/certs/*
+/storage/keys/*
 /.postgres
 /.redis
