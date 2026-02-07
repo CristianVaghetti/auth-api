@@ -1,6 +1,6 @@
-# 🚀 Project – Local Development Environment
+# 🚀 Project – Auth API
 
-This repository provides everything you need to spin up a **local development environment** using **Docker + Docker Compose**, with support for **Laravel**, **Redis**, **PostgreSQL**, and **Nginx with self‑signed SSL**.
+This repository it's a fully decoupled auth api, which the only job is for authenticate a user.
 
 ---
 
