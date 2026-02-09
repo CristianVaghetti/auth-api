@@ -14,14 +14,12 @@ class JwksController extends Controller
         $details = openssl_pkey_get_details(openssl_pkey_get_public($publicKey));
 
         return response()->json([
-            [
-                'kty' => 'RSA',
-                'use' => 'sig',
-                'kid' => config('jwt.key_id', 'auth-api-1'),
-                'alg' => 'RS256',
-                'n' => $this->base64UrlEncode($details['rsa']['n']),
-                'e' => $this->base64UrlEncode($details['rsa']['e']),
-            ],
+            'kty' => 'RSA',
+            'use' => 'sig',
+            'kid' => config('jwt.key_id', 'auth-api-1'),
+            'alg' => 'RS256',
+            'n' => $this->base64UrlEncode($details['rsa']['n']),
+            'e' => $this->base64UrlEncode($details['rsa']['e']),
         ]);
     }
 
