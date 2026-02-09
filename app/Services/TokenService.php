@@ -22,10 +22,10 @@ class TokenService
     protected function makeRefreshToken(User $user): string
     {
         RefreshToken::revokeForUser($user->id);
-        
+
         $refreshToken = RefreshToken::create([
-            'user_id'    => $user->id,
-            'token'      => Str::uuid(),
+            'user_id' => $user->id,
+            'token' => Str::uuid(),
             'expires_at' => now()->addDays(30),
         ]);
 
@@ -45,11 +45,11 @@ class TokenService
         return JWT::encode(
             $payload,
             file_get_contents(config('jwt.private_key')),
-            'RS256'
+            'RS256',
         );
     }
 
-    public function refreshToken(string $refreshToken): array | false
+    public function refreshToken(string $refreshToken): array|false
     {
         $token = RefreshToken::where('token', $refreshToken)->first();
 
@@ -62,4 +62,3 @@ class TokenService
         return $this->issueTokens($token->user);
     }
 }
-

@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\RefreshToken;
 use App\Models\User;
 
 class GoogleAuthService
@@ -20,7 +19,7 @@ class GoogleAuthService
                 'email' => $googleUser->email,
                 'name' => $googleUser->name,
                 'avatar' => $googleUser->avatar,
-            ]
+            ],
         );
     }
 }

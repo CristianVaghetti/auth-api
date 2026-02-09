@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class RefreshToken extends Model
 {
@@ -49,5 +49,4 @@ class RefreshToken extends Model
                 'expires_at' => now(),
             ]);
     }
-
 }

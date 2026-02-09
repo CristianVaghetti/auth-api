@@ -27,7 +27,7 @@ class GoogleAuthController extends Controller
         $user = $this->googleAuthService->handleGoogleCallback($googleUser);
 
         return response()->json(
-            $this->tokenService->issueTokens($user)
+            $this->tokenService->issueTokens($user),
         );
     }
 

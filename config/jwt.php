@@ -30,5 +30,5 @@ return [
     |--------------------------------------------------------------------------
     */
     'private_key' => storage_path(env('JWT_PRIVATE_KEY_PATH', 'keys/jwt-private.pem')),
-    'public_key'  => storage_path(env('JWT_PUBLIC_KEY_PATH', 'keys/jwt-public.pem')),
+    'public_key' => storage_path(env('JWT_PUBLIC_KEY_PATH', 'keys/jwt-public.pem')),
 ];

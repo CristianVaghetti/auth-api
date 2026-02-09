@@ -19,8 +19,8 @@ class JwksController extends Controller
                 'use' => 'sig',
                 'kid' => config('jwt.key_id', 'auth-api-1'),
                 'alg' => 'RS256',
-                'n'   => $this->base64UrlEncode($details['rsa']['n']),
-                'e'   => $this->base64UrlEncode($details['rsa']['e']),
+                'n' => $this->base64UrlEncode($details['rsa']['n']),
+                'e' => $this->base64UrlEncode($details['rsa']['e']),
             ],
         ]);
     }
