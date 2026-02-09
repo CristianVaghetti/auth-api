@@ -57,8 +57,6 @@ class TokenService
             return false;
         }
 
-        $token->update(['revoked_at' => now()]);
-
         return $this->issueTokens($token->user);
     }
 }
