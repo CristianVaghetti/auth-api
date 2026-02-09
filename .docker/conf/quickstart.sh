@@ -12,6 +12,13 @@ if [ ! -d "/var/www/html/vendor" ]; then
 
 fi
 
+if [ ! -f storage/keys/jwt-private.pem ] || [ ! -f storage/keys/jwt-public.pem ]; then
+  mkdir -p storage/keys
+  openssl genrsa -out storage/keys/jwt-private.pem 4096
+  openssl rsa -in storage/keys/jwt-private.pem -pubout -out storage/keys/jwt-public.pem
+
+fi
+
 sleep 5
 
 php -f /var/www/html/artisan optimize
