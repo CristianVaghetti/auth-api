@@ -1,6 +1,6 @@
 # 🚀 Project – Auth API
 
-This repository it's a fully decoupled auth api, which the only job is for authenticate a user.
+This repository is a **fully decoupled authentication API**, whose **only responsibility** is to authenticate users and issue JWT tokens.
 
 ---
 
@@ -31,7 +31,8 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
   -subj "/C=BR/ST=SP/L=SaoPaulo/O=Dev/CN=localhost"
 ```
 
-⚠️ **Warning:** These certificates are intended **only for local development**. **Do not use them in production.**
+⚠️ **Warning:** These certificates are intended **only for local development**.  
+**Do not use them in production.**
 
 ---
 
@@ -41,7 +42,7 @@ This project comes **preconfigured out of the box** with Laravel background work
 
 * **Laravel Horizon** is already installed and ready to monitor Redis queues
 * **Laravel Scheduler** runs automatically in the background
-* **Supervisor** is configured to start at container startup and execute schedule:work and horizon, with no manual intervention required
+* **Supervisor** is configured to start at container startup and execute `schedule:work` and `horizon`, with no manual intervention required
 
 No extra setup is required — once the containers are up, queues and scheduled tasks are already running 🚀
 
@@ -86,6 +87,61 @@ DB_DATABASE=database
 DB_USERNAME=username
 DB_PASSWORD=password
 ```
+
+### 🔐 JWT
+
+```env
+JWT_PRIVATE_KEY_PATH=keys/jwt-private.pem
+JWT_PUBLIC_KEY_PATH=keys/jwt-public.pem
+JWT_ISSUER=auth-api
+JWT_TTL=900
+```
+
+---
+
+## 🔑 Google OAuth Configuration
+
+This project supports authentication via **Google OAuth**, but you must configure the application in **Google Cloud Console**.
+
+### 1️⃣ Create a Project
+
+1. Access **Google Cloud Console**
+2. Create a new project (or select an existing one)
+3. Enable **Google Identity / OAuth 2.0** APIs
+
+### 2️⃣ Configure OAuth Consent Screen
+
+1. Go to **APIs & Services → OAuth consent screen**
+2. Choose **External**
+3. Fill in the required fields:
+   - Application name
+   - Support email
+   - Developer contact email
+4. Save and continue (no extra scopes required)
+
+### 3️⃣ Create OAuth Credentials
+
+1. Navigate to **APIs & Services → Credentials**
+2. Click **Create Credentials → OAuth client ID**
+3. Select **Web application**
+4. Configure:
+
+**Authorized redirect URIs**
+
+    https://localhost/v1/auth/google/callback
+
+⚠️ Adjust domains and callback URLs according to your environment.
+
+### 4️⃣ Environment Variables
+
+After creating the credentials, add them to your `.env` file:
+
+```env
+AUTH_GOOGLE_CLIENT_ID=your-client-id
+AUTH_GOOGLE_CLIENT_SECRET=your-client-secret
+AUTH_GOOGLE_REDIRECT_URI=https://localhost/auth/google/callback
+```
+Once configured, Google authentication will be fully functional 🚀
 
 ---
 
