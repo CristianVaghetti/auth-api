@@ -31,4 +31,10 @@ return [
     */
     'private_key' => storage_path(env('JWT_PRIVATE_KEY_PATH', 'keys/jwt-private.pem')),
     'public_key' => storage_path(env('JWT_PUBLIC_KEY_PATH', 'keys/jwt-public.pem')),
+    'kid' => env('JWT_KID', 'auth-api-1'),
+
+    'allowed_clients' => array_map(
+        'trim',
+        explode(',', env('JWT_ALLOWED_CLIENTS', ''))
+    ),
 ];
