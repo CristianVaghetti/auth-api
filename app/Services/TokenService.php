@@ -38,6 +38,7 @@ class TokenService
             'iss' => config('jwt.issuer'),
             'sub' => $user->id,
             'email' => $user->email,
+            'aud' => config('jwt.allowed_clients'),
             'iat' => time(),
             'exp' => time() + config('jwt.ttl'),
         ];
@@ -46,6 +47,7 @@ class TokenService
             $payload,
             file_get_contents(config('jwt.private_key')),
             'RS256',
+            config('jwt.kid') 
         );
     }
 
@@ -56,8 +58,6 @@ class TokenService
         if (! $token || ! $token->isValid()) {
             return false;
         }
-
-        $token->update(['revoked_at' => now()]);
 
         return $this->issueTokens($token->user);
     }
