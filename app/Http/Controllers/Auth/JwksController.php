@@ -3,23 +3,37 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Repository\AuthKeyRepository;
 use Illuminate\Http\JsonResponse;
 
 class JwksController extends Controller
 {
-    public function __invoke(): JsonResponse
+    public function __invoke(AuthKeyRepository $authKeyRepository): JsonResponse
     {
-        $publicKey = file_get_contents(config('jwt.public_key'));
+        $keys = $authKeyRepository
+            ->getActive()
+            ->map(function ($key) {
 
-        $details = openssl_pkey_get_details(openssl_pkey_get_public($publicKey));
+                $publicKey = file_get_contents(
+                    storage_path("{$key->path}/jwt-public.pem")
+                );
+
+                $details = openssl_pkey_get_details(
+                    openssl_pkey_get_public($publicKey)
+                );
+
+                return [
+                    'kty' => 'RSA',
+                    'use' => 'sig',
+                    'kid' => $key->kid,
+                    'alg' => 'RS256',
+                    'n' => $this->base64UrlEncode($details['rsa']['n']),
+                    'e' => $this->base64UrlEncode($details['rsa']['e']),
+                ];
+            });
 
         return response()->json([
-            'kty' => 'RSA',
-            'use' => 'sig',
-            'kid' => config('jwt.key_id', 'auth-api-1'),
-            'alg' => 'RS256',
-            'n' => $this->base64UrlEncode($details['rsa']['n']),
-            'e' => $this->base64UrlEncode($details['rsa']['e']),
+            'keys' => $keys->values()
         ]);
     }
 
