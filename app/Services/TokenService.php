@@ -24,6 +24,11 @@ class TokenService
             'refresh_token' => $this->makeRefreshToken($user),
             'token_type' => 'Bearer',
             'expires_in' => config('jwt.ttl'),
+            'user' => [
+                'name' => $user->name,
+                'email' => $user->email,
+                'avatar' => $user->avatar,
+            ],
         ];
     }
 
