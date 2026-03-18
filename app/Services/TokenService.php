@@ -2,13 +2,21 @@
 
 namespace App\Services;
 
+use App\Models\AuthKey;
 use App\Models\RefreshToken;
 use App\Models\User;
+use App\Repository\AuthKeyRepository;
 use Firebase\JWT\JWT;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class TokenService
 {
+    public function __construct(protected AuthKeyRepository $authKeyRepository)
+    {
+        //
+    }
+
     public function issueTokens(User $user): array
     {
         return [
@@ -16,6 +24,11 @@ class TokenService
             'refresh_token' => $this->makeRefreshToken($user),
             'token_type' => 'Bearer',
             'expires_in' => config('jwt.ttl'),
+            'user' => [
+                'name' => $user->name,
+                'email' => $user->email,
+                'avatar' => $user->avatar,
+            ],
         ];
     }
 
@@ -43,11 +56,13 @@ class TokenService
             'exp' => time() + config('jwt.ttl'),
         ];
 
+        $authKey = $this->authKeyRepository->getCurrent();
+
         return JWT::encode(
             $payload,
-            file_get_contents(config('jwt.private_key')),
+            Storage::disk('storage')->get($authKey->path . '/jwt-private.pem'),
             'RS256',
-            config('jwt.kid') 
+            $authKey->kid 
         );
     }
 

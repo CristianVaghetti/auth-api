@@ -1,9 +1,9 @@
 services:
-  app:
+  auth-api:
     build:
       context: .
       dockerfile: .docker/Dockerfile
-    container_name: app
+    container_name: auth-api
     env_file:
       - .env
     volumes:
